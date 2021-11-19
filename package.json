@@ -1,0 +1,23 @@
+{
+  "name": "algorithmvisualizer",
+  "version": "1.0.0",
+  "description": "Algorithm Visualizer",
+  "default": "index.html",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html --dist-dir dist --public-url ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fatihfurkanaydemir/javascript-algorithmvisualizer.git"
+  },
+  "author": "Fatih Furkan Aydemir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fatihfurkanaydemir/javascript-algorithmvisualizer/issues"
+  },
+  "homepage": "https://github.com/fatihfurkanaydemir/javascript-algorithmvisualizer#readme",
+  "devDependencies": {
+    "parcel": "^2.0.0-rc.0"
+  }
+}
