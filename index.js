@@ -1,28 +1,66 @@
 'use strict';
 
-const speed = 10;
-const arraySize = 100;
-let barValues = [];
-let arrayToVisualize = [];
-let states = [];
-
-for (let i = 0; i < arraySize; i++) {
-  barValues.push(Math.random() * 600 + 10);
-}
-
-arrayToVisualize = barValues.slice();
+/***********************************************/
+/*****************  Elements *******************/
+/***********************************************/
 
 const canvas = document.querySelector('#canvas');
 const canvasSection = document.querySelector('.canvas-section');
 const startBtn = document.querySelector('.btn-start');
 const randomizeBtn = document.querySelector('.btn-randomize');
+const algorithmSelector = document.querySelector('#algorithm');
+const arraySizeSlider = document.querySelector('#arraysize');
+const arraySizeValue = document.querySelector('#arraysize-value');
+
+/***********************************************/
+/*****************  Variables ******************/
+/***********************************************/
+
+const speed = 10;
+let arraySize = 50;
+let barValues = [];
+let arrayToVisualize = [];
+let states = [];
+let working = false;
+
+RandomizeArray();
+ResizeCanvas();
+
+/***********************************************/
+/*****************  Event Listeners ************/
+/***********************************************/
 
 window.addEventListener('resize', ResizeCanvas);
 
+arraySizeSlider.addEventListener('input', function (e) {
+  if (working) return;
+  arraySize = +e.target.value;
+  arraySizeValue.textContent = e.target.value;
+
+  RandomizeArray();
+  ResizeCanvas();
+});
+
 startBtn.addEventListener('click', function (e) {
   e.preventDefault();
-  //insertionSort(barValues);
-  mergeSort(barValues);
+  if (working) return;
+  working = true;
+  arraySizeSlider.setAttribute('disabled', true);
+
+  switch (algorithmSelector.value) {
+    case 'insertionsort':
+      insertionSort(barValues);
+      break;
+    case 'mergesort':
+      mergeSort(barValues);
+      break;
+    case 'hquicksort':
+      HQuickSort(barValues);
+      break;
+    case 'lquicksort':
+      LQuickSort(barValues);
+      break;
+  }
 
   Animate();
 });
@@ -30,15 +68,25 @@ startBtn.addEventListener('click', function (e) {
 randomizeBtn.addEventListener('click', function (e) {
   e.preventDefault();
 
+  RandomizeArray();
+
+  ResizeCanvas();
+});
+
+/***********************************************/
+/*****************  Functions ******************/
+/***********************************************/
+
+function RandomizeArray() {
+  if (working) return;
+
   barValues = [];
   for (let i = 0; i < arraySize; i++) {
     barValues.push(Math.random() * (canvas.clientHeight - 10) + 10);
   }
 
   arrayToVisualize = barValues.slice();
-
-  Draw();
-});
+}
 
 function ResizeCanvas() {
   canvas.width = canvas.clientWidth;
@@ -47,14 +95,14 @@ function ResizeCanvas() {
   Draw();
 }
 
-ResizeCanvas();
-
 function Animate() {
   states.forEach(function (state, i) {
     setTimeout(function () {
-      Draw(arrayToVisualize, state.index);
-      if (state.type === 'set') {
-        arrayToVisualize[state.index] = state.value;
+      if (working) {
+        Draw(arrayToVisualize, state.index);
+        if (state.type === 'set') {
+          arrayToVisualize[state.index] = state.value;
+        }
       }
     }, speed * i);
   });
@@ -62,6 +110,8 @@ function Animate() {
   setTimeout(function () {
     Draw();
     states = [];
+    working = false;
+    arraySizeSlider.attributes.removeNamedItem('disabled');
   }, speed * states.length);
 }
 
@@ -86,6 +136,10 @@ function Draw(array = arrayToVisualize, highlighted = -1) {
     }
   }
 }
+
+/***********************************************/
+/*****************  ALGORITHMS *****************/
+/***********************************************/
 
 function insertionSort(array) {
   for (let i = 1; i < array.length; i++) {
@@ -144,4 +198,69 @@ function merge(array, p, q, r) {
       m++;
     }
   }
+}
+
+function HQuickSort(array, p = 0, r = array.length - 1) {
+  if (p < r) {
+    const q = HPartition(array, p, r);
+    HQuickSort(array, p, q);
+    HQuickSort(array, q + 1, r);
+  }
+}
+
+function LQuickSort(array, p = 0, r = array.length - 1) {
+  if (p < r) {
+    const q = LPartition(array, p, r);
+    HQuickSort(array, p, q);
+    HQuickSort(array, q + 1, r);
+  }
+}
+
+function HPartition(array, p, r) {
+  const pivot = array[p];
+  let i = p - 1;
+  let j = r + 1;
+  do {
+    j--;
+  } while (array[j] > pivot);
+  do {
+    i++;
+  } while (array[i] < pivot);
+  if (i < j) {
+    const tmp = array[i];
+
+    array[i] = array[j];
+    states.push({ type: 'set', index: i, value: array[j] });
+
+    array[j] = tmp;
+    states.push({ type: 'set', index: j, value: tmp });
+  } else return j;
+}
+
+function LPartition(array, p, r) {
+  const pivot = array[r];
+  let i = p - 1;
+  for (let j = p; j <= r - 1; j++) {
+    if (array[j] <= pivot) {
+      i++;
+
+      const tmp = array[i];
+
+      array[i] = array[j];
+      states.push({ type: 'set', index: i, value: array[j] });
+
+      array[j] = tmp;
+      states.push({ type: 'set', index: j, value: tmp });
+    }
+  }
+
+  const tmp = array[i + 1];
+
+  array[i + 1] = array[r];
+  states.push({ type: 'set', index: i + 1, value: array[r] });
+
+  array[r] = tmp;
+  states.push({ type: 'set', index: r, value: tmp });
+
+  return i + 1;
 }

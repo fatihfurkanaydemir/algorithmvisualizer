@@ -14,13 +14,36 @@
     <main class="container main">
       <aside class="menu">
         <form class="form-menu">
-          <select name="algortihm-type" id="algortihm-type">
+          <select name="algorithm-type" id="algorithm-type">
             <option name="sort">Sort</option>
           </select>
-          <select name="algortihm" id="algortihm-type">
-            <option name="insertion-sort">Insertion Sort</option>
+          <select name="algorithm" id="algorithm">
+            <option name="insertionsort" value="insertionsort">
+              Insertion Sort
+            </option>
+            <option name="mergesort" value="mergesort">Merge Sort</option>
+            <option name="hquicksort" value="hquicksort">
+              Hoare Quick Sort
+            </option>
+            <option name="lquicksort" value="lquicksort">
+              Lomuto Quick Sort
+            </option>
           </select>
-          <input type="text" placeholder="Array Size" />
+          <div>
+            <label for="arraysize">Array Size</label>
+            <div class="arraysize-container">
+              <input
+                type="range"
+                id="arraysize"
+                name="arraysize"
+                min="1"
+                max="100"
+                value="50"
+              />
+              <span id="arraysize-value">50</span>
+            </div>
+          </div>
+
           <button class="btn btn-start">Start</button>
           <button class="btn btn-randomize">Randomize Array</button>
         </form>
