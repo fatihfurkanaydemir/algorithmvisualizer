@@ -11,16 +11,18 @@ const randomizeBtn = document.querySelector('.btn-randomize');
 const algorithmSelector = document.querySelector('#algorithm');
 const arraySizeSlider = document.querySelector('#arraysize');
 const arraySizeValue = document.querySelector('#arraysize-value');
+const animationDelaySlider = document.querySelector('#animationdelay');
+const animationDelayValue = document.querySelector('#animationdelay-value');
 
 /***********************************************/
 /*****************  Variables ******************/
 /***********************************************/
 
-const speed = 10;
+let speed = 10;
 let arraySize = 50;
 let barValues = [];
 let arrayToVisualize = [];
-let states = [];
+let steps = [];
 let working = false;
 
 RandomizeArray();
@@ -41,11 +43,19 @@ arraySizeSlider.addEventListener('input', function (e) {
   ResizeCanvas();
 });
 
+animationDelaySlider.addEventListener('input', function (e) {
+  if (working) return;
+
+  speed = +e.target.value;
+  animationDelayValue.textContent = e.target.value;
+});
+
 startBtn.addEventListener('click', function (e) {
   e.preventDefault();
   if (working) return;
   working = true;
   arraySizeSlider.setAttribute('disabled', true);
+  animationDelaySlider.setAttribute('disabled', true);
 
   switch (algorithmSelector.value) {
     case 'insertionsort':
@@ -96,12 +106,12 @@ function ResizeCanvas() {
 }
 
 function Animate() {
-  states.forEach(function (state, i) {
+  steps.forEach(function (step, i) {
     setTimeout(function () {
       if (working) {
-        Draw(arrayToVisualize, state.index);
-        if (state.type === 'set') {
-          arrayToVisualize[state.index] = state.value;
+        Draw(arrayToVisualize, step.index);
+        if (step.type === 'set') {
+          arrayToVisualize[step.index] = step.value;
         }
       }
     }, speed * i);
@@ -109,10 +119,11 @@ function Animate() {
 
   setTimeout(function () {
     Draw();
-    states = [];
+    steps = [];
     working = false;
     arraySizeSlider.attributes.removeNamedItem('disabled');
-  }, speed * states.length);
+    animationDelaySlider.attributes.removeNamedItem('disabled');
+  }, speed * steps.length);
 }
 
 function Draw(array = arrayToVisualize, highlighted = -1) {
@@ -148,12 +159,12 @@ function insertionSort(array) {
 
     while (j >= 0 && array[j] > key) {
       array[j + 1] = array[j];
-      states.push({ type: 'set', index: j + 1, value: array[j] });
+      steps.push({ type: 'set', index: j + 1, value: array[j] });
       j--;
     }
 
     array[j + 1] = key;
-    states.push({ type: 'set', index: j + 1, value: key });
+    steps.push({ type: 'set', index: j + 1, value: key });
   }
 }
 
@@ -190,11 +201,11 @@ function merge(array, p, q, r) {
   for (let i = p; i <= r; i++) {
     if (left[k] <= right[m]) {
       array[i] = left[k];
-      states.push({ type: 'set', index: i, value: left[k] });
+      steps.push({ type: 'set', index: i, value: left[k] });
       k++;
     } else {
       array[i] = right[m];
-      states.push({ type: 'set', index: i, value: right[m] });
+      steps.push({ type: 'set', index: i, value: right[m] });
       m++;
     }
   }
@@ -230,10 +241,10 @@ function HPartition(array, p, r) {
     const tmp = array[i];
 
     array[i] = array[j];
-    states.push({ type: 'set', index: i, value: array[j] });
+    steps.push({ type: 'set', index: i, value: array[j] });
 
     array[j] = tmp;
-    states.push({ type: 'set', index: j, value: tmp });
+    steps.push({ type: 'set', index: j, value: tmp });
   } else return j;
 }
 
@@ -247,20 +258,20 @@ function LPartition(array, p, r) {
       const tmp = array[i];
 
       array[i] = array[j];
-      states.push({ type: 'set', index: i, value: array[j] });
+      steps.push({ type: 'set', index: i, value: array[j] });
 
       array[j] = tmp;
-      states.push({ type: 'set', index: j, value: tmp });
+      steps.push({ type: 'set', index: j, value: tmp });
     }
   }
 
   const tmp = array[i + 1];
 
   array[i + 1] = array[r];
-  states.push({ type: 'set', index: i + 1, value: array[r] });
+  steps.push({ type: 'set', index: i + 1, value: array[r] });
 
   array[r] = tmp;
-  states.push({ type: 'set', index: r, value: tmp });
+  steps.push({ type: 'set', index: r, value: tmp });
 
   return i + 1;
 }

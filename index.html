@@ -31,7 +31,7 @@
           </select>
           <div>
             <label for="arraysize">Array Size</label>
-            <div class="arraysize-container">
+            <div class="slider-container">
               <input
                 type="range"
                 id="arraysize"
@@ -40,7 +40,21 @@
                 max="100"
                 value="50"
               />
-              <span id="arraysize-value">50</span>
+              <span class="slider-value" id="arraysize-value">50</span>
+            </div>
+          </div>
+          <div>
+            <label for="animationdelay">Animation Delay (ms)</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="animationdelay"
+                name="animationdelay"
+                min="1"
+                max="1000"
+                value="10"
+              />
+              <span class="slider-value" id="animationdelay-value">10</span>
             </div>
           </div>
 
