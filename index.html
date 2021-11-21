@@ -28,6 +28,9 @@
             <option name="lquicksort" value="lquicksort">
               Lomuto Quick Sort
             </option>
+            <option name="countingsort" value="countingsort">
+              Counting Sort
+            </option>
           </select>
           <div>
             <label for="arraysize">Array Size</label>
@@ -37,7 +40,7 @@
                 id="arraysize"
                 name="arraysize"
                 min="1"
-                max="100"
+                max="500"
                 value="50"
               />
               <span class="slider-value" id="arraysize-value">50</span>
@@ -50,9 +53,10 @@
                 type="range"
                 id="animationdelay"
                 name="animationdelay"
-                min="1"
+                min="0"
                 max="1000"
                 value="10"
+                step="10"
               />
               <span class="slider-value" id="animationdelay-value">10</span>
             </div>
@@ -61,6 +65,9 @@
           <button class="btn btn-start">Start</button>
           <button class="btn btn-randomize">Randomize Array</button>
         </form>
+        <a href="https://github.com/fatihfurkanaydemir" class="copyright"
+          >&copy; Fatih Furkan Aydemir</a
+        >
       </aside>
       <div class="canvas-section">
         <canvas id="canvas"></canvas>

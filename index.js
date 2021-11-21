@@ -70,6 +70,9 @@ startBtn.addEventListener('click', function (e) {
     case 'lquicksort':
       LQuickSort(barValues);
       break;
+    case 'countingsort':
+      barValues = CountingSort(barValues);
+      break;
   }
 
   Animate();
@@ -90,9 +93,8 @@ randomizeBtn.addEventListener('click', function (e) {
 function RandomizeArray() {
   if (working) return;
 
-  barValues = Array.from(
-    { length: arraySize },
-    (v, i) => Math.random() * (canvas.clientHeight - 10) + 10
+  barValues = Array.from({ length: arraySize }, () =>
+    Math.ceil(Math.random() * (canvas.clientHeight - 10) + 10)
   );
 
   arrayToVisualize = barValues.slice();
@@ -222,8 +224,8 @@ function HQuickSort(array, p = 0, r = array.length - 1) {
 function LQuickSort(array, p = 0, r = array.length - 1) {
   if (p < r) {
     const q = LPartition(array, p, r);
-    HQuickSort(array, p, q);
-    HQuickSort(array, q + 1, r);
+    LQuickSort(array, p, q - 1);
+    LQuickSort(array, q + 1, r);
   }
 }
 
@@ -231,27 +233,30 @@ function HPartition(array, p, r) {
   const pivot = array[p];
   let i = p - 1;
   let j = r + 1;
-  do {
-    j--;
-  } while (array[j] > pivot);
-  do {
-    i++;
-  } while (array[i] < pivot);
-  if (i < j) {
-    const tmp = array[i];
 
-    array[i] = array[j];
-    steps.push({ type: 'set', index: i, value: array[j] });
+  while (true) {
+    do {
+      j--;
+    } while (array[j] > pivot);
+    do {
+      i++;
+    } while (array[i] < pivot);
+    if (i < j) {
+      const tmp = array[i];
 
-    array[j] = tmp;
-    steps.push({ type: 'set', index: j, value: tmp });
-  } else return j;
+      array[i] = array[j];
+      steps.push({ type: 'set', index: i, value: array[j] });
+
+      array[j] = tmp;
+      steps.push({ type: 'set', index: j, value: tmp });
+    } else return j;
+  }
 }
 
 function LPartition(array, p, r) {
   const pivot = array[r];
   let i = p - 1;
-  for (let j = p; j <= r - 1; j++) {
+  for (let j = p; j < r; j++) {
     if (array[j] <= pivot) {
       i++;
 
@@ -265,13 +270,36 @@ function LPartition(array, p, r) {
     }
   }
 
-  const tmp = array[i + 1];
+  i++;
+  const tmp = array[i];
 
-  array[i + 1] = array[r];
-  steps.push({ type: 'set', index: i + 1, value: array[r] });
+  array[i] = array[r];
+  steps.push({ type: 'set', index: i, value: array[r] });
 
   array[r] = tmp;
   steps.push({ type: 'set', index: r, value: tmp });
 
-  return i + 1;
+  return i;
+}
+
+function CountingSort(array, k = Math.ceil(canvas.clientHeight)) {
+  const counts = Array.from({ length: k + 1 }, () => 0);
+  const aux = Array.from({ length: array.length }, () => -1);
+
+  for (let i = 0; i < array.length; i++) {
+    counts[array[i]]++;
+  }
+
+  for (let i = 1; i < counts.length; i++) {
+    counts[i] += counts[i - 1];
+  }
+
+  for (let i = array.length - 1; i >= 0; i--) {
+    aux[counts[array[i]] - 1] = array[i];
+    steps.push({ type: 'set', index: counts[array[i]] - 1, value: array[i] });
+
+    counts[array[i]]--;
+  }
+
+  return aux;
 }
