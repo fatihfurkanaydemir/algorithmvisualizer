@@ -90,10 +90,10 @@ randomizeBtn.addEventListener('click', function (e) {
 function RandomizeArray() {
   if (working) return;
 
-  barValues = [];
-  for (let i = 0; i < arraySize; i++) {
-    barValues.push(Math.random() * (canvas.clientHeight - 10) + 10);
-  }
+  barValues = Array.from(
+    { length: arraySize },
+    (v, i) => Math.random() * (canvas.clientHeight - 10) + 10
+  );
 
   arrayToVisualize = barValues.slice();
 }
