@@ -28,11 +28,6 @@ body {
 .copyright:visited {
   display: block;
 
-  position: absolute;
-  bottom: 1%;
-  left: 50%;
-  transform: translateX(-50%);
-
   width: 100%;
   text-align: center;
   font-size: 1.6rem;
@@ -51,7 +46,7 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 150rem;
+  padding: 0 2rem;
 }
 
 .main {
@@ -67,7 +62,9 @@ body {
   height: 100%;
   width: 25rem;
 
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .form-menu {

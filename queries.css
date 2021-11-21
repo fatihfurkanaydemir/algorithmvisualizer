@@ -1,0 +1,95 @@
+/* < 1344px */
+@media (max-width: 84em) {
+  .container {
+    max-width: 130rem;
+  }
+}
+
+/* < 1200px */
+@media (max-width: 75em) {
+  html {
+    font-size: 56.25%;
+  }
+
+  .copyright:link,
+  .copyright:visited {
+    font-size: 1.2rem;
+  }
+
+  .copyright:hover,
+  .copyright:active {
+    font-size: 1.3rem;
+  }
+}
+
+/* < 944px */
+@media (max-width: 59em) {
+  .menu {
+    width: 18rem;
+  }
+
+  select {
+    padding: 0.6rem 1rem;
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 1.2rem;
+  }
+
+  label {
+    font-size: 1.2rem;
+  }
+
+  .slider-value {
+    font-size: 1.2rem;
+  }
+
+  .canvas-section {
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    padding: 0 1.6rem;
+  }
+}
+
+/* < 704px */
+@media (max-width: 44em) {
+}
+
+/* < 560px */
+@media (max-width: 35em) {
+  .menu {
+    width: 15rem;
+    padding: 1.2rem 0.5rem;
+  }
+
+  .copyright:link,
+  .copyright:visited {
+    font-size: 1rem;
+  }
+
+  .copyright:hover,
+  .copyright:active {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  label {
+    font-size: 1rem;
+  }
+
+  .slider-value {
+    font-size: 1rem;
+  }
+}
+
+/* < 352px */
+@media (max-width: 22em) {
+}
