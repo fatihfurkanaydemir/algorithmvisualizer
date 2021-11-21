@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fatihfurkanaydemir/javascript-algorithmvisualizer.git"
+    "url": "git+https://github.com/fatihfurkanaydemir/ffa-algorithmvisualizer.git"
   },
   "author": "Fatih Furkan Aydemir",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fatihfurkanaydemir/javascript-algorithmvisualizer/issues"
+    "url": "https://github.com/fatihfurkanaydemir/ffa-algorithmvisualizer/issues"
   },
-  "homepage": "https://github.com/fatihfurkanaydemir/javascript-algorithmvisualizer#readme",
+  "homepage": "https://github.com/fatihfurkanaydemir/ffa-algorithmvisualizer#readme",
   "devDependencies": {
     "parcel": "^2.0.0-rc.0"
   }
